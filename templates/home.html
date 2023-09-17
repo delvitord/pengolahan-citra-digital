@@ -5,12 +5,16 @@
         <h1 class="display-4 align-self-center">Di sinilah Anda Mengubah Citra Anda!</h1>
         <p class="lead">Deskripsi.</p>
         <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-            Lempar sini citranya!
-            <input name="file" type="file" id="inputGroupFile04" accept="image/*">
+            <div id="dropArea" class="drop-area">
+                <p id="dropText" >Lempar sini citranya atau klik untuk memilih</p>
+                <input name="file" type="file" id="inputGroupFile04" accept="image/*" style="display: none;">
+            </div>
+            <p id="uploadStatus" style="margin-top: 20px;"></p>
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
     </div>
 </div>
 
 <script src="{{ url_for('static', filename='scripts/home.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
 {% endblock %}
