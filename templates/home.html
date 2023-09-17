@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4 align-self-center">Di sinilah Anda Mengubah Citra Anda!</h1>
+        <p class="lead">Deskripsi.</p>
+        <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            Lempar sini citranya!
+            <input name="file" type="file" id="inputGroupFile04" accept="image/*">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='scripts/home.js') }}"></script>
+{% endblock %}
