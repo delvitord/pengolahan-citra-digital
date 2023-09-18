@@ -10,6 +10,8 @@ document.getElementById("uploadForm").addEventListener("submit", function(event)
 var dropArea = document.getElementById("dropArea");
 var dropText = document.getElementById("dropText");
 var uploadStatus = document.getElementById("uploadStatus");
+var imagePreview = document.getElementById("imagePreview");
+var dragging = false;
 
 // Mencegah tindakan default saat file dijatuhkan
 dropArea.addEventListener("dragenter", function (e) {
@@ -17,13 +19,17 @@ dropArea.addEventListener("dragenter", function (e) {
     e.stopPropagation();
     dropArea.classList.add("highlight");
     dropText.innerText = "Lepaskan saja!";
+    dragging = true;
 }, false);
 
 dropArea.addEventListener("dragleave", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    dropArea.classList.remove("highlight");
-    dropText.innerText = "Lempar sini citranya atau klik untuk memilih";
+    if (!dragging) {
+        dropArea.classList.remove("highlight");
+        dropText.innerText = "Lempar sini citranya atau klik untuk memilih";
+    }
+    dragging = false;
 }, false);
 
 dropArea.addEventListener("dragover", function (e) {
@@ -36,6 +42,7 @@ dropArea.addEventListener("drop", function (e) {
     e.stopPropagation();
     dropArea.classList.remove("highlight");
     dropText.innerText = "Lempar sini citranya atau klik untuk memilih";
+    dragging = false;
 
     var fileInput = document.getElementById("inputGroupFile04");
     var files = e.dataTransfer.files;
@@ -43,6 +50,7 @@ dropArea.addEventListener("drop", function (e) {
     if (files.length > 0) {
         fileInput.files = files;
         updateUploadStatus(files[0].name);
+        displayImagePreview(files[0]);
     }
 }, false);
 
@@ -57,6 +65,11 @@ var fileInput = document.getElementById("inputGroupFile04");
 fileInput.addEventListener("change", function () {
     var fileName = fileInput.files[0] ? fileInput.files[0].name : null;
     updateUploadStatus(fileName);
+    if (fileInput.files[0]) {
+        displayImagePreview(fileInput.files[0]);
+    } else {
+        imagePreview.style.display = "none";
+    }
 });
 
 function updateUploadStatus(fileName) {
@@ -65,6 +78,15 @@ function updateUploadStatus(fileName) {
     } else {
         uploadStatus.innerText = "Anda belum memasukkan citra.";
     }
+}
+
+function displayImagePreview(file) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
 }
 
 // Mengecek status pada awal load

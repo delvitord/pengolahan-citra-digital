@@ -2,13 +2,14 @@
 {% block body %}
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-4 align-self-center">Di sinilah Anda Mengubah Citra Anda!</h1>
-        <p class="lead">Deskripsi.</p>
+        <h1 class="display-4 align-self-center">Tempatnya Anda Berkreasi dengan Citra!!</h1>
+        <p class="lead">Website ini dapat mengolah citra digital dengan berbagai macam proses, baik itu proses umum seperti Greyscale dan Zoom; Pergeseran; Penerangan; Analisis Gambar; Pemrosesan Gambar; Filter Gamber; dan Segmentasi.</p>
         <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <div id="dropArea" class="drop-area">
                 <p id="dropText" >Lempar sini citranya atau klik untuk memilih</p>
                 <input name="file" type="file" id="inputGroupFile04" accept="image/*" style="display: none;">
             </div>
+            <img id="imagePreview" src="" alt="Preview Gambar" style="display: none;">
             <p id="uploadStatus" style="margin-top: 20px;"></p>
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>

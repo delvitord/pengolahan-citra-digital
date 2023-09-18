@@ -1,3 +1,12 @@
+p {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.lead {
+    margin-bottom: 2rem;
+}
+
 .drop-area {
     border: 2px dashed #ccc;
     border-radius: 8px;
@@ -6,7 +15,24 @@
     cursor: pointer;
 }
 
+
 .highlight {
     border-color: #007bff !important; 
     background-color: #f0f9ff !important;
 }
+
+#imagePreview {
+    max-width: 100%;
+    max-height: 300px;
+    margin: 20px auto;
+    display: block;
+}
+
+.display-4 {
+    font-weight: 600;
+}
+
+.jumbotron {
+    background-color: white;
+}
+
