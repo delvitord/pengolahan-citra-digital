@@ -5,6 +5,7 @@ import math
 from collections import Counter
 from pylab import savefig
 import cv2
+import os
 
 
 def grayscale():
@@ -314,3 +315,61 @@ def threshold(lower_thres, upper_thres):
     new_img = new_img.convert('RGB')
 
     new_img.save("static/img/img_now.jpg")
+
+def split_image(image, rows, columns):
+    width, height = image.size
+    box_width = width // columns
+    box_height = height // rows
+    cropped_boxes = []
+
+    for i in range(rows):
+        for j in range(columns):
+            left = j * box_width
+            upper = i * box_height
+            right = left + box_width
+            lower = upper + box_height
+            box = image.crop((left, upper, right, lower))
+            cropped_boxes.append(box)
+
+    return cropped_boxes
+
+def cropping_susun(rows, columns):
+    image_path = "static/img/img_now.jpg"
+    original_image = Image.open(image_path)
+
+    # Split the image into specified number of rows and columns
+    cropped_boxes = split_image(original_image, rows, columns)
+
+    # Create a new directory to store cropped images
+    output_dir = "static/cropped_images"
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Save each cropped box as a separate image
+    for i, box in enumerate(cropped_boxes):
+        # Convert the box to RGB mode before saving
+        box = box.convert("RGB")
+        output_path = os.path.join(output_dir, f"cropped_{i}.jpg")
+        box.save(output_path)
+
+def cropping_acak(rows, columns):
+    image_path = "static/img/img_now.jpg"
+    original_image = Image.open(image_path)
+
+    # Split the image into specified number of rows and columns
+    cropped_boxes = split_image(original_image, rows, columns)
+
+    # Shuffle the cropped boxes
+    np.random.shuffle(cropped_boxes)
+
+    # Create a new directory to store shuffled cropped images
+    output_dir = "static/cropped_images_random"
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Save each shuffled cropped box as a separate image
+    for i, box in enumerate(cropped_boxes):
+        # Convert the box to RGB mode before saving
+        box = box.convert("RGB")
+        output_path = os.path.join(output_dir, f"cropped_random_{i}.jpg")
+        box.save(output_path)
+
+

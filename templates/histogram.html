@@ -119,10 +119,9 @@
 </div>
 
 <!-- Main content -->
-    <div class="container-fluid">
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <div class="row">
+<div class="col-md-9 content">
+    <div class="container">
+        <div class="row">
                     {% if file_paths[2] %}
                     <div class="col-md-4">
                         <h3>Image RGB</h3>
@@ -150,11 +149,96 @@
                         <img class="img-fluid" src="{{ url_for('static', filename=file_paths[0]) }}" alt="image here">
                     </div>
                     {% endif %}
-                </div>
             </div>
         </div>
     </div>
 </div>
+
 <style>
+    /* Define styles for the sidebar */
+    .sidebar {
+        position: fixed;
+        height: 100%;
+        overflow-y: auto; /* Add scrollbar when content overflows */
+        background-color: white; /* Sidebar background color */
+        padding: 20px; /* Add some padding for spacing */
+        width: 350px; /* Set the desired width for the sidebar */
+        z-index: 1; /* Set the z-index to ensure the sidebar appears above the content */
+        margin-top: 50px;
+        padding-bottom: 90px;
+        padding-left: 40px ;
+        border-right: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    h2 {
+        font-size: 22px;
+        margin-top: 20px;
+    }
+
+    /* Style for buttons inside the sidebar */
+    .sidebar .btn {
+        display: block;
+        width: 100%; /* Make buttons evenly spaced and full width */
+        margin-bottom: 10px; /* Add spacing between buttons */
+    }
+
+    /* Define styles for the main content */
+    .content {
+        margin-left: 350px; /* Adjust this margin to make room for the sidebar */
+        padding: 20px;
+        margin-top: 70px; /* Add margin to create space below the fixed-top navbar */
+    }
+
+    .container-fluid {
+        width: 100%;
+        padding-right: 0px;
+        padding-left: 0px; 
+    }
+
+    
+    .dropdown-content {
+        display: none;
+        border: 1px solid #ccc;
+        padding: 10px;
+        padding-top: 15px;
+        padding-bottom: 5px;
+        margin-top: 5px;
+        border-radius: 5px;
+    }
+
+    .dropdown-button {
+        cursor: pointer;
+        text-decoration: underline;
+        position: relative;
+    }
+
+    .dropdown-button:hover {
+        color: #007bff;
+    }
+
+    .arrow {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.2s;
+    }
+
+    .dropdown-button.active .arrow {
+        transform: translateY(-50%) rotate(90deg);
+    }
 </style>
+
+
+<script>
+    function toggleDropdown(id) {
+        var dropdown = document.getElementById(id);
+        if (dropdown.style.display === "none" || dropdown.style.display === "") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+</script>
 {% endblock %}

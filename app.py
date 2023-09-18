@@ -215,5 +215,33 @@ def thresholding():
     return render_template("uploaded.html", file_path="img/img_now.jpg")
 
 
+@app.route("/cropping_susun", methods=["POST"])
+@nocache
+def cropping_susun():
+    cropping_columns = int(request.form['cropping_columns'])
+    cropping_rows = int(request.form['cropping_rows'])
+
+    image_processing.cropping_susun(cropping_rows, cropping_columns)
+
+    # Get the list of cropped image paths
+    image_paths = [f"static/cropped_images/cropped_{i}.jpg" for i in range(cropping_columns * cropping_rows)]
+
+    return render_template("cropped.html", image_paths=image_paths, cropping_columns=cropping_columns, cropping_rows=cropping_rows)
+
+@app.route("/cropping_acak", methods=["POST"])
+@nocache
+def cropping_acak():
+    cropping_columns_random = int(request.form['cropping_columns_random'])
+    cropping_rows_random = int(request.form['cropping_rows_random'])
+
+    image_processing.cropping_acak(cropping_rows_random, cropping_columns_random)
+
+    # Get the list of shuffled cropped image paths
+    image_paths = [f"static/cropped_images_random/cropped_random_{i}.jpg" for i in range(cropping_columns_random * cropping_rows_random)]
+
+    return render_template("cropped.html", image_paths=image_paths, cropping_columns=cropping_columns_random, cropping_rows=cropping_rows_random)
+
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
