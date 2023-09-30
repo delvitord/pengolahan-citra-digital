@@ -6,8 +6,8 @@
             <h1>Menu</h1>
             <div class="separator"></div>
 
-            <h2 class="dropdown-button" onclick="toggleDropdown('umum')">Umum <span class="arrow">&gt;</span></h2>
-            <div id="umum" class="dropdown-content">
+            <h2>Umum </h2>
+            <div id="umum" class="features-group">
                 <form id="" action="{{ url_for('normal') }}" method="POST" enctype="multipart/form-data">
                     <button type="submit" class="btn btn-primary">Normal</button>
                 </form>
@@ -24,8 +24,8 @@
 
             <div class="separator"></div>
 
-            <h2 class="dropdown-button" onclick="toggleDropdown('pergeseran')">Pergeseran <span class="arrow">&gt;</span></h2>
-            <div id="pergeseran" class="dropdown-content">
+            <h2>Pergeseran </h2>
+            <div id="pergeseran" class="features-group">
                 <form id="" action="{{ url_for('move_left') }}" method="POST" enctype="multipart/form-data">
                     <button type="submit" class="btn btn-primary">Geser Kiri</button>
                 </form>
@@ -42,8 +42,8 @@
 
             <div class="separator"></div>
 
-            <h2 class="dropdown-button" onclick="toggleDropdown('penerangan')">Penerangan <span class="arrow">&gt;</span></h2>
-            <div id="penerangan" class="dropdown-content">
+            <h2>Penerangan </h2>
+            <div id="penerangan" class="features-group">
                 <form id="" action="{{ url_for('brightness_multiplication') }}" method="POST" enctype="multipart/form-data">
                     <button type="submit" class="btn btn-primary">Terang (*)</button>
                 </form>
@@ -60,8 +60,8 @@
         
             <div class="separator"></div>
         
-            <h2 class="dropdown-button" onclick="toggleDropdown('analisis')">Analisis Gambar <span class="arrow">&gt;</span></h2>
-            <div id="analisis" class="dropdown-content">
+            <h2>Analisis Gambar </h2>
+            <div id="analisis" class="features-group">
                 <form id="" action="{{ url_for('histogram_rgb') }}" method="POST" enctype="multipart/form-data">
                     <button type="submit" class="btn btn-primary">Histogram</button>
                 </form>
@@ -69,8 +69,8 @@
         
             <div class="separator"></div>
         
-            <h2 class="dropdown-button" onclick="toggleDropdown('pemrosesan')">Pemrosesan Gambar <span class="arrow">&gt;</span></h2>
-            <div id="pemrosesan" class="dropdown-content">
+            <h2>Pemrosesan Gambar </h2>
+            <div id="pemrosesan" class="features-group">
                 <form id="" action="{{ url_for('histogram_equalizer') }}" method="POST" enctype="multipart/form-data">
                     <button type="submit" class="btn btn-primary">Histogram Equalizer</button>
                 </form>
@@ -78,8 +78,8 @@
         
             <div class="separator"></div>
         
-            <h2 class="dropdown-button" onclick="toggleDropdown('filter')">Filter Gambar <span class="arrow">&gt;</span></h2>
-            <div id="filter" class="dropdown-content">
+            <h2>Filter Gambar </h2>
+            <div id="filter" class="features-group">
                 <form id="" action="{{ url_for('edge_detection') }}" method="POST" enctype="multipart/form-data">
                     <button type="submit" class="btn btn-primary">Edge Detection</button>
                 </form>
@@ -93,8 +93,8 @@
         
             <div class="separator"></div>
         
-            <h2 class="dropdown-button" onclick="toggleDropdown('segmentasi')">Segmentasi <span class="arrow">&gt;</span></h2>
-            <div id="segmentasi" class="dropdown-content">
+            <h2>Segmentasi </h2>
+            <div id="segmentasi" class="features-group">
                 <form id="" action="{{ url_for('thresholding') }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col">
@@ -115,38 +115,94 @@
                     </div>
                 </form>
             </div>
+
+            <div class="separator"></div>
+
+            <h2>Cropping </h2>
+            <div id="crop" class="features-group">
+                <form id="croppingForm" action="{{ url_for('cropping_susun') }}" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <label for="croppingColumns">Kolom</label>
+                            <input type="number" class="form-control" id="croppingColumns" name="cropping_columns" min="1" placeholder="Input Angka">
+                        </div>
+                        <div class="col">
+                            <label for="croppingRows">Baris</label>
+                            <input type="number" class="form-control" id="croppingRows" name="cropping_rows" min="1" placeholder="Input Angka">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Cropping Tersusun</button>
+                        </div>
+                    </div>
+                </form>
+                <form id="croppingRandomForm" action="{{ url_for('cropping_acak') }}" method="POST" enctype="multipart/form-data">
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label for="croppingColumnsRandom">Kolom</label>
+                            <input type="number" class="form-control" id="croppingColumnsRandom" name="cropping_columns_random" min="1" placeholder="Input Angka">
+                        </div>
+                        <div class="col">
+                            <label for="croppingRowsRandom">Baris</label>
+                            <input type="number" class="form-control" id="croppingRowsRandom" name="cropping_rows_random" min="1" placeholder="Input Angka">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Cropping Acak</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="separator"></div>
+        
+            <h2>RGB Value </h2>
+            <div id="rgbvalue" class="features-group">
+                <p id="image-dimensions"></p>
+                <div class="row mt-2">
+                    <div class="col">
+                        <button type="submit" id="showRgbTableButton" class="btn btn-primary">Tampilkan Tabel RGB</button>
+                    </div>
+                </div>
+                 
+            </div>
+        </div>
     </div>
-</div>
 
 <!-- Main content -->
-<div class="col-md-9 content">
-    <div class="container">
-        <div class="row">
+    <div class="col-md-9 content">
+        <div class="container">
+            <div class="row">
                     {% if file_paths[2] %}
                     <div class="col-md-4">
                         <h3>Image RGB</h3>
-                        <img class="img-fluid" src="{{ url_for('static', filename='img/img_now.jpg') }}" alt="image here">
-                    </div>
-                    <div class="col-md-4">
-                        <h3>Red Histogram</h3>
                         <img class="img-fluid" src="{{ url_for('static', filename=file_paths[0]) }}" alt="image here">
                     </div>
+            </div>
+            <div class="row">
+                    <div class="col-md-4">
+                        <h3>Red Histogram</h3>
+                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[1]) }}" alt="image here">
+                    </div>
+
                     <div class="col-md-4">
                         <h3>Green Histogram</h3>
-                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[1]) }}" alt="image here">
+                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[2]) }}" alt="image here">
                     </div>
                     <div class="col-md-4">
                         <h3>Blue Histogram</h3>
-                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[2]) }}" alt="image here">
+                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[3]) }}" alt="image here">
                     </div>
                     {% else %}
                     <div class="col-md-6">
                         <h3>Image Greyscaled</h3>
-                        <img class="img-fluid" src="{{ url_for('static', filename='img/img_now.jpg') }}" alt="image here">
+                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[0]) }}" alt="image here">
                     </div>
                     <div class="col-md-6">
                         <h3>Black Histogram</h3>
-                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[0]) }}" alt="image here">
+                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[1]) }}" alt="image here">
                     </div>
                     {% endif %}
             </div>
@@ -154,91 +210,6 @@
     </div>
 </div>
 
-<style>
-    /* Define styles for the sidebar */
-    .sidebar {
-        position: fixed;
-        height: 100%;
-        overflow-y: auto; /* Add scrollbar when content overflows */
-        background-color: white; /* Sidebar background color */
-        padding: 20px; /* Add some padding for spacing */
-        width: 350px; /* Set the desired width for the sidebar */
-        z-index: 1; /* Set the z-index to ensure the sidebar appears above the content */
-        margin-top: 50px;
-        padding-bottom: 90px;
-        padding-left: 40px ;
-        border-right: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    h2 {
-        font-size: 22px;
-        margin-top: 20px;
-    }
-
-    /* Style for buttons inside the sidebar */
-    .sidebar .btn {
-        display: block;
-        width: 100%; /* Make buttons evenly spaced and full width */
-        margin-bottom: 10px; /* Add spacing between buttons */
-    }
-
-    /* Define styles for the main content */
-    .content {
-        margin-left: 350px; /* Adjust this margin to make room for the sidebar */
-        padding: 20px;
-        margin-top: 70px; /* Add margin to create space below the fixed-top navbar */
-    }
-
-    .container-fluid {
-        width: 100%;
-        padding-right: 0px;
-        padding-left: 0px; 
-    }
-
-    
-    .dropdown-content {
-        display: none;
-        border: 1px solid #ccc;
-        padding: 10px;
-        padding-top: 15px;
-        padding-bottom: 5px;
-        margin-top: 5px;
-        border-radius: 5px;
-    }
-
-    .dropdown-button {
-        cursor: pointer;
-        text-decoration: underline;
-        position: relative;
-    }
-
-    .dropdown-button:hover {
-        color: #007bff;
-    }
-
-    .arrow {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        transition: transform 0.2s;
-    }
-
-    .dropdown-button.active .arrow {
-        transform: translateY(-50%) rotate(90deg);
-    }
-</style>
-
-
-<script>
-    function toggleDropdown(id) {
-        var dropdown = document.getElementById(id);
-        if (dropdown.style.display === "none" || dropdown.style.display === "") {
-            dropdown.style.display = "block";
-        } else {
-            dropdown.style.display = "none";
-        }
-    }
-</script>
+<script src="{{ url_for('static', filename='scripts/uploaded.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/uploaded.css') }}">
 {% endblock %}

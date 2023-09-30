@@ -6,10 +6,22 @@ from collections import Counter
 from pylab import savefig
 import cv2
 import os
+import pandas as pd
+import cv2 as cv
+from skimage import io
+import matplotlib.pylab as plt
 
+global img_counter
+img_counter = 1
+
+def normal():
+    global img_counter
+    img_counter = 1
 
 def grayscale():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img)
     r = img_arr[:, :, 0]
     g = img_arr[:, :, 1]
@@ -17,7 +29,10 @@ def grayscale():
     new_arr = r.astype(int) + g.astype(int) + b.astype(int)
     new_arr = (new_arr/3).astype('uint8')
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
+
 
 
 def is_grey_scale(img_path):
@@ -32,7 +47,9 @@ def is_grey_scale(img_path):
 
 
 def zoomin():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img = img.convert("RGB")
     img_arr = np.asarray(img)
     new_size = ((img_arr.shape[0] * 2),
@@ -71,11 +88,15 @@ def zoomin():
 
     new_arr = new_arr.astype('uint8')
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def zoomout():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img = img.convert("RGB")
     x, y = img.size
     new_arr = Image.new("RGB", (int(x / 2), int(y / 2)))
@@ -93,11 +114,15 @@ def zoomout():
                 (g[0] + g[1] + g[2] + g[3]) / 4), int((b[0] + b[1] + b[2] + b[3]) / 4)))
     new_arr = np.uint8(new_arr)
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def move_left():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img)
     r, g, b = img_arr[:, :, 0], img_arr[:, :, 1], img_arr[:, :, 2]
     r = np.pad(r, ((0, 0), (0, 50)), 'constant')[:, 50:]
@@ -105,11 +130,15 @@ def move_left():
     b = np.pad(b, ((0, 0), (0, 50)), 'constant')[:, 50:]
     new_arr = np.dstack((r, g, b))
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def move_right():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img)
     r, g, b = img_arr[:, :, 0], img_arr[:, :, 1], img_arr[:, :, 2]
     r = np.pad(r, ((0, 0), (50, 0)), 'constant')[:, :-50]
@@ -117,11 +146,15 @@ def move_right():
     b = np.pad(b, ((0, 0), (50, 0)), 'constant')[:, :-50]
     new_arr = np.dstack((r, g, b))
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def move_up():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img)
     r, g, b = img_arr[:, :, 0], img_arr[:, :, 1], img_arr[:, :, 2]
     r = np.pad(r, ((0, 50), (0, 0)), 'constant')[50:, :]
@@ -129,11 +162,15 @@ def move_up():
     b = np.pad(b, ((0, 50), (0, 0)), 'constant')[50:, :]
     new_arr = np.dstack((r, g, b))
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def move_down():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img)
     r, g, b = img_arr[:, :, 0], img_arr[:, :, 1], img_arr[:, :, 2]
     r = np.pad(r, ((50, 0), (0, 0)), 'constant')[0:-50, :]
@@ -141,47 +178,65 @@ def move_down():
     b = np.pad(b, ((50, 0), (0, 0)), 'constant')[0:-50, :]
     new_arr = np.dstack((r, g, b))
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def brightness_addition():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img).astype('uint16')
     img_arr = img_arr+100
     img_arr = np.clip(img_arr, 0, 255)
     new_arr = img_arr.astype('uint8')
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def brightness_substraction():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img).astype('int16')
     img_arr = img_arr-100
     img_arr = np.clip(img_arr, 0, 255)
     new_arr = img_arr.astype('uint8')
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def brightness_multiplication():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img)
     img_arr = img_arr*1.25
     img_arr = np.clip(img_arr, 0, 255)
     new_arr = img_arr.astype('uint8')
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def brightness_division():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img)
     img_arr = img_arr/1.25
     img_arr = np.clip(img_arr, 0, 255)
     new_arr = img_arr.astype('uint8')
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def convolution(img, kernel):
@@ -212,39 +267,52 @@ def convolution(img, kernel):
 
 
 def edge_detection():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img, dtype=int)
     kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
     new_arr = convolution(img_arr, kernel)
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def blur():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img, dtype=int)
     kernel = np.array(
         [[0.0625, 0.125, 0.0625], [0.125, 0.25, 0.125], [0.0625, 0.125, 0.0625]])
     new_arr = convolution(img_arr, kernel)
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def sharpening():
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img, dtype=int)
     kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
     new_arr = convolution(img_arr, kernel)
     new_img = Image.fromarray(new_arr)
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 
 def histogram_rgb():
-    img_path = "static/img/img_now.jpg"
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     if is_grey_scale(img_path):
-        g = img_arr[:, :, 0].flatten()
+        g = img_arr.flatten()
         data_g = Counter(g)
         plt.bar(list(data_g.keys()), data_g.values(), color='black')
         plt.savefig(f'static/img/grey_histogram.jpg', dpi=300)
@@ -263,6 +331,7 @@ def histogram_rgb():
             plt.bar(list(data[1].keys()), data[1].values(), color=f'{data[0]}')
             plt.savefig(f'static/img/{data[0]}_histogram.jpg', dpi=300)
             plt.clf()
+
 
 
 def df(img):  # to make a histogram (count distribution frequency)
@@ -285,17 +354,21 @@ def cdf(hist):  # cumulative distribution frequency
 
 
 def histogram_equalizer():
-    img = cv2.imread('static\img\img_now.jpg', 0)
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = cv2.imread(img_path, 0)
     my_cdf = cdf(df(img))
     # use linear interpolation of cdf to find new pixel values. Scipy alternative exists
     image_equalized = np.interp(img, range(0, 256), my_cdf)
-    cv2.imwrite('static/img/img_now.jpg', image_equalized)
-
-
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    cv2.imwrite(img_path, image_equalized)
 
 
 def threshold(lower_thres, upper_thres):
-    img = Image.open("static/img/img_now.jpg")
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    img = Image.open(img_path)
     img_arr = np.asarray(img)
 
     # Salin array yang dapat diubah
@@ -314,7 +387,9 @@ def threshold(lower_thres, upper_thres):
     # Ubah mode gambar ke RGB
     new_img = new_img.convert('RGB')
 
-    new_img.save("static/img/img_now.jpg")
+    img_counter += 1 
+    img_path = f"static/img/img{img_counter}.jpg"
+    new_img.save(img_path)
 
 def split_image(image, rows, columns):
     width, height = image.size
@@ -334,8 +409,9 @@ def split_image(image, rows, columns):
     return cropped_boxes
 
 def cropping_susun(rows, columns):
-    image_path = "static/img/img_now.jpg"
-    original_image = Image.open(image_path)
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    original_image = Image.open(img_path)
 
     # Split the image into specified number of rows and columns
     cropped_boxes = split_image(original_image, rows, columns)
@@ -352,8 +428,9 @@ def cropping_susun(rows, columns):
         box.save(output_path)
 
 def cropping_acak(rows, columns):
-    image_path = "static/img/img_now.jpg"
-    original_image = Image.open(image_path)
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    original_image = Image.open(img_path)
 
     # Split the image into specified number of rows and columns
     cropped_boxes = split_image(original_image, rows, columns)
@@ -372,4 +449,6 @@ def cropping_acak(rows, columns):
         output_path = os.path.join(output_dir, f"cropped_random_{i}.jpg")
         box.save(output_path)
 
-
+def restore_history(restore_int):
+    global img_counter
+    img_counter = restore_int

@@ -1,0 +1,184 @@
+/* Define styles for the sidebar */
+.sidebar {
+    position: fixed;
+    height: 100%;
+    overflow-y: auto; /* Add scrollbar when content overflows */
+    background-color: white; /* Sidebar background color */
+    padding: 20px; /* Add some padding for spacing */
+    width: 350px; /* Set the desired width for the sidebar */
+    z-index: 1; /* Set the z-index to ensure the sidebar appears above the content */
+    margin-top: 50px;
+    padding-bottom: 90px;
+    padding-left: 40px ;
+    border-right: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.rgb-table {
+    border-collapse: collapse; /* Menggabungkan batas sel tabel */
+    width: 15rem;
+    margin-left: 60px;
+}
+
+.rgb-table th, .rgb-table td {
+    border: 1px solid #000; /* Tambahkan garis batas 1px hitam */
+    padding: 1px; /* Ruang di dalam sel */
+    text-align: center; /* Pusatkan teks dalam sel */
+}
+
+
+.bold-text {
+    font-weight: bold; /* Membuat teks menjadi tebal */
+}
+
+h2 {
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+/* Style for buttons inside the sidebar */
+.sidebar .btn {
+    display: block;
+    width: 100%; /* Make buttons evenly spaced and full width */
+    margin-bottom: 10px; /* Add spacing between buttons */
+}
+
+/* Define styles for the main content */
+.content {
+    margin-left: 300px; /* Adjust this margin to make room for the sidebar */
+    padding: 20px;
+    margin-top: 70px; /* Add margin to create space below the fixed-top navbar */
+    padding-bottom: 200px;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px; 
+}
+
+
+.features-group {
+    border: 1px solid #ccc;
+    padding: 10px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+input.thres {
+    width: 5rem;
+}
+
+.range {
+    margin-top: 20px;
+}
+
+.range-slider {
+    height: 5px;
+    position: relative;
+    background-color: #e1e9f6;
+    border-radius: 2px;
+  }
+  .range-selected {
+    height: 100%;
+    left: 0%;
+    right: 0%;
+    position: absolute;
+    border-radius: 5px;
+    background-color: #1b53c0;
+  }
+
+  .range-input {
+    position: relative;
+  }
+  .range-input input {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: -7px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; /* Standard property for compatibility */
+   }
+
+  .range-input input::-webkit-slider-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 3px solid #1b53c0;
+    background-color: #fff;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    appearance: none; /* Standard property for compatibility */
+  }
+  .range-input input::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    border: 3px solid #1b53c0;
+    background-color: #fff;
+    pointer-events: auto;
+    -moz-appearance: none;
+  }
+
+  .range-thres {
+    margin: 30px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .range-thres label {
+    margin-right: 5px;
+  }
+  .range-thres input {
+    width: 4rem;
+    padding: 5px;
+  }
+  .range-thres input:first-of-type {
+    margin-right: 15px;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-top: 1px solid #ccc;
+    color: black;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.image-history {
+    text-align: left;
+    margin-left: 370px;
+}
+
+#image-list {
+    list-style: none;
+    padding: 0;
+    display: flex; /* Menggunakan Flexbox untuk tata letak horizontal */
+    overflow-x: auto; /* Jika jumlah gambar melebihi lebar kontainer, aktifkan scrolling horizontal */
+    gap: 7px; /* Jarak antara elemen-elemen di dalam list */
+    height: 9rem;
+    margin-top: 10px;
+}
+
+#image-list li {
+    margin: 0; /* Menghilangkan margin agar tidak ada ruang ekstra di sekitar gambar */
+}
+
+#image-list img {
+    max-width: 7rem; /* Memastikan gambar tidak melebihi lebar list */
+}
+
+#image-list img:hover {
+    cursor: pointer;
+}
+

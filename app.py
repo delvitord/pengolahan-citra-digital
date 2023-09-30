@@ -11,6 +11,9 @@ app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+global img_counter
+img_counter = 1
+
 
 def nocache(view):
     @wraps(view)
@@ -50,9 +53,25 @@ def add_header(r):
     return r
 
 
+def clear_directory(directory_path):
+    """
+    Clears all files in the specified directory.
+    """
+    for filename in os.listdir(directory_path):
+        file_path = os.path.join(directory_path, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            print(f"Error deleting {file_path}: {str(e)}")
+
 @app.route("/upload", methods=["POST"])
 @nocache
 def upload():
+    # Clear the specified directories before processing the upload
+    clear_directory("static/img")
+    clear_directory("static/cropped_images_random")
+    clear_directory("static/cropped_images/")
     target = os.path.join(APP_ROOT, "static/img")
     if not os.path.isdir(target):
         if os.name == 'nt':
@@ -74,9 +93,15 @@ def upload():
     if not allowed_file(file.filename):
         return render_template("home.html", error="File harus berupa gambar.")
 
-    file.save("static/img/img_now.jpg")
-    copyfile("static/img/img_now.jpg", "static/img/img_normal.jpg")
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    # Create a PIL Image object from the uploaded file
+    img = Image.open(file)
+    
+    # Convert the image to RGB mode
+    img = img.convert('RGB')
+
+    img.save("static/img/img1.jpg")
+    copyfile("static/img/img1.jpg", "static/img/img_normal.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path="img/img1.jpg")
 
 def allowed_file(filename):
     # Mengecek apakah ekstensi file adalah ekstensi gambar yang diterima (misalnya .jpg, .png, .jpeg)
@@ -87,132 +112,194 @@ def allowed_file(filename):
 @app.route("/normal", methods=["POST"])
 @nocache
 def normal():
-    copyfile("static/img/img_normal.jpg", "static/img/img_now.jpg")
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    global img_counter
+    # Hapus gambar-gambar sebelumnya
+    for i in range(1, img_counter + 1):
+        img_filename = f"static/img/img{i}.jpg"
+        if os.path.exists(img_filename):
+            os.remove(img_filename)
+
+    copyfile("static/img/img_normal.jpg", "static/img/img1.jpg")
+    img_counter = 1
+    image_processing.normal()
+
+    return render_template("uploaded.html", img_counter=img_counter, file_path="img/img1.jpg")
+
 
 
 @app.route("/grayscale", methods=["POST"])
 @nocache
 def grayscale():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.grayscale()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/zoomin", methods=["POST"])
 @nocache
 def zoomin():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.zoomin()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/zoomout", methods=["POST"])
 @nocache
 def zoomout():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.zoomout()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/move_left", methods=["POST"])
 @nocache
 def move_left():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.move_left()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/move_right", methods=["POST"])
 @nocache
 def move_right():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.move_right()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/move_up", methods=["POST"])
 @nocache
 def move_up():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.move_up()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/move_down", methods=["POST"])
 @nocache
 def move_down():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.move_down()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/brightness_addition", methods=["POST"])
 @nocache
 def brightness_addition():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.brightness_addition()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/brightness_substraction", methods=["POST"])
 @nocache
 def brightness_substraction():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.brightness_substraction()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/brightness_multiplication", methods=["POST"])
 @nocache
 def brightness_multiplication():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.brightness_multiplication()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/brightness_division", methods=["POST"])
 @nocache
 def brightness_division():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.brightness_division()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/histogram_equalizer", methods=["POST"])
 @nocache
 def histogram_equalizer():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.histogram_equalizer()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/edge_detection", methods=["POST"])
 @nocache
 def edge_detection():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.edge_detection()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/blur", methods=["POST"])
 @nocache
 def blur():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.blur()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/sharpening", methods=["POST"])
 @nocache
 def sharpening():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     image_processing.sharpening()
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/histogram_rgb", methods=["POST"])
 @nocache
 def histogram_rgb():
+    global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     image_processing.histogram_rgb()
-    if image_processing.is_grey_scale("static/img/img_now.jpg"):
-        return render_template("histogram.html", file_paths=["img/grey_histogram.jpg"])
+    if image_processing.is_grey_scale(img_filename):
+        return render_template("histogram.html", file_paths=[f"img/img{img_counter}.jpg", "img/grey_histogram.jpg"])
     else:
-        return render_template("histogram.html", file_paths=["img/red_histogram.jpg", "img/green_histogram.jpg", "img/blue_histogram.jpg"])
+        return render_template("histogram.html", file_paths=[f"img/img{img_counter}.jpg", "img/red_histogram.jpg", "img/green_histogram.jpg", "img/blue_histogram.jpg"])
 
 
 @app.route("/thresholding", methods=["POST"])
 @nocache
 def thresholding():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
     lower_thres = int(request.form['lower_thres'])
     upper_thres = int(request.form['upper_thres'])
     image_processing.threshold(lower_thres, upper_thres)
-    return render_template("uploaded.html", file_path="img/img_now.jpg")
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
 @app.route("/cropping_susun", methods=["POST"])
@@ -241,7 +328,31 @@ def cropping_acak():
 
     return render_template("cropped.html", image_paths=image_paths, cropping_columns=cropping_columns_random, cropping_rows=cropping_rows_random)
 
+@app.route("/image/<int:img_num>")
+def get_image(img_num):
+    if img_num >= 1 and img_num <= img_counter:
+        img_filename = f"static/img/img{img_num}.jpg"
+        return send_file(img_filename, as_attachment=True)
+    else:
+        return "Image not found", 404
 
+@app.route("/restore_history/<int:img_num>")
+def restore_history(img_num):
+    # Set nilai img_counter sesuai dengan nomor gambar yang ditekan
+    global img_counter
+    image_processing.restore_history(img_num)
+    # Hapus gambar dengan nomor yang lebih besar   
+    for i in range(img_num + 1, img_counter + 1):
+        img_filename = f"static/img/img{i}.jpg"
+        if os.path.exists(img_filename):
+            os.remove(img_filename)
+
+    # Update img_filename sesuai dengan img_counter yang baru
+    img_counter = img_num
+    img_filename = f"img/img{img_counter}.jpg"
+
+    # Redirect ke halaman yang sesuai (misalnya, halaman yang menampilkan gambar terbaru)
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
