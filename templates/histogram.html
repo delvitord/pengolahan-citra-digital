@@ -95,26 +95,32 @@
         
             <h2>Segmentasi </h2>
             <div id="segmentasi" class="features-group">
-                <form id="" action="{{ url_for('thresholding') }}" method="POST" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col">
+                <div class="range">
+                    <form id="thresholdForm" action="{{ url_for('thresholding') }}" method="POST" enctype="multipart/form-data">
+
+                        <div class="range-slider">
+                            <span class="range-selected"></span>
+                        </div>
+                        <div class="range-input">
+                            <input type="range" class="min" min="0" max="255" value="0" step="1">
+                            <input type="range" class="max" min="0" max="255" value="255" step="1">
+                        </div>
+                        <div class="range-thres">      
                             <label for="lower_thres">Batas Awal</label>
-                            <input type="number" class="form-control" name="lower_thres" placeholder="0-255">
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col">
+                            <input type="number" id="lower_thres" class="form-control thres" name="lower_thres" value="0">      
                             <label for="upper_thres">Batas Akhir</label>
-                            <input type="number" class="form-control" name="upper_thres" placeholder="0-255">
+                            <input type="number" id="upper_thres" class="form-control thres" name="upper_thres" value="255">      
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary">Thresholding</button>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary">Thresholding</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div> 
             </div>
+
+            
 
             <div class="separator"></div>
 
@@ -157,8 +163,8 @@
             </div>
 
             <div class="separator"></div>
-        
-            <h2>RGB Value </h2>
+            
+            <h2>Image Properties </h2>
             <div id="rgbvalue" class="features-group">
                 <p id="image-dimensions"></p>
                 <div class="row mt-2">
@@ -168,8 +174,95 @@
                 </div>
                  
             </div>
+
+            <div class="separator"></div>
+            <h2>Konvolusi</h2>
+            <div id="konvolusi" class="features-group">
+                <form id="" action="{{ url_for('identity') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Identity</button>
+                </form>
+                
+                <form id="" action="{{ url_for('blur_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Blur With Kernel</button>
+                </form>
+                 
+                <form id="" action="{{ url_for('blur_cv_blur') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Blur With CV.Blur</button>
+                </form>
+                <form id="" action="{{ url_for('gaussian_blur', ksize=5) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Gaussian Blur 5x5</button>
+                </form>
+                <form id="" action="{{ url_for('gaussian_blur', ksize=25) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Gaussian Blur 25x25</button>
+                </form>
+                <form id="" action="{{ url_for('median_blur', ksize=5) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Median Blur 5x5</button>
+                </form>
+                <form id="" action="{{ url_for('median_blur', ksize=25) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Median Blur 25x25</button>
+                </form>
+                <form id="" action="{{ url_for('sharp_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Sharpening With Kernel</button>
+                </form>
+            </div>
+            <div class="separator"></div>
+
+
+            <h2>Filter</h2>
+            <div id="identity" class="features-group">
+                <form id="" action="{{ url_for('zero_padding') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Zero Padding</button>
+                </form>
+                <form id="" action="{{ url_for('bilateral_filter') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Bilateral Filter</button>
+                </form>
+                <form id="" action="{{ url_for('low_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Lowpass Filter</button>
+                </form>
+                <form id="" action="{{ url_for('high_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Highpass Filter</button>
+                </form>
+                <form id="" action="{{ url_for('band_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Bandpass Filter</button>
+                </form>
+                <form id="filter-form" action="{{ url_for('custom_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="kernel">Kernel Matrix:</label>
+                        <table class="table-kernel">
+                            <tr>
+                                <td><input type="text" name="cell_1_1"  value=""></td>
+                                <td><input type="text" name="cell_1_2"  value=""></td>
+                                <td><input type="text" name="cell_1_3"  value=""></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="cell_2_1"  value=""></td>
+                                <td><input type="text" name="cell_2_2"  value=""></td>
+                                <td><input type="text" name="cell_2_3"  value=""></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="cell_3_1"  value=""></td>
+                                <td><input type="text" name="cell_3_2"  value=""></td>
+                                <td><input type="text" name="cell_3_3"  value=""></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Custom Kernel</button>
+                </form>
+            </div>
+
+            <div class="separator"></div>
+
+            <h2>History</h2>
+            <div id="historyMenu" class="features-group">
+                <form id="restore-form" action="" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary" name="restore_img" value="{{ img_counter }}">Restore to Image <span id="image-counter">{{ img_counter }}</span></button>
+                </form>               
+            </div>
+        
+
         </div>
     </div>
+</div>
 
 <!-- Main content -->
     <div class="col-md-9 content">
@@ -178,10 +271,10 @@
                     {% if file_paths[2] %}
                     <div class="col-md-4">
                         <h3>Image RGB</h3>
-                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[0]) }}" alt="image here">
+                        <img class="img-fluid" id="image-result" src="{{ url_for('static', filename=file_paths[0]) }}" alt="image here">
                     </div>
             </div>
-            <div class="row">
+            <div class="row" style="padding-top: 20px;">
                     <div class="col-md-4">
                         <h3>Red Histogram</h3>
                         <img class="img-fluid" src="{{ url_for('static', filename=file_paths[1]) }}" alt="image here">
@@ -198,7 +291,7 @@
                     {% else %}
                     <div class="col-md-6">
                         <h3>Image Greyscaled</h3>
-                        <img class="img-fluid" src="{{ url_for('static', filename=file_paths[0]) }}" alt="image here">
+                        <img class="img-fluid" id="image-result" src="{{ url_for('static', filename=file_paths[0]) }}" alt="image here">
                     </div>
                     <div class="col-md-6">
                         <h3>Black Histogram</h3>
@@ -207,6 +300,21 @@
                     {% endif %}
             </div>
         </div>
+    </div>
+</div>
+
+
+<!-- Footer-->
+<div class="footer">
+    <div class="image-history">
+        <h3>Image History</h3>
+        <ul id="image-list" class="horizontal-list">
+            {% for img_num in range(img_counter, 0, -1) %}
+                <li>
+                    <img class="img-fluid history-image" id="image-result" data-img-num="{{ img_num }}" src="{{ url_for('static', filename='img/img' + img_num|string + '.jpg') }}" alt="Image {{ img_num }}">
+                </li>
+            {% endfor %}
+        </ul>        
     </div>
 </div>
 

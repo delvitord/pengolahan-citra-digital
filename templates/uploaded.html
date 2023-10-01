@@ -177,6 +177,81 @@
             </div>
 
             <div class="separator"></div>
+            <h2>Konvolusi</h2>
+            <div id="konvolusi" class="features-group">
+                <form id="" action="{{ url_for('identity') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Identity</button>
+                </form>
+                
+                <form id="" action="{{ url_for('blur_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Blur With Kernel</button>
+                </form>
+                 
+                <form id="" action="{{ url_for('blur_cv_blur') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Blur With CV.Blur</button>
+                </form>
+                <form id="" action="{{ url_for('gaussian_blur', ksize=5) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Gaussian Blur 5x5</button>
+                </form>
+                <form id="" action="{{ url_for('gaussian_blur', ksize=25) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Gaussian Blur 25x25</button>
+                </form>
+                <form id="" action="{{ url_for('median_blur', ksize=5) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Median Blur 5x5</button>
+                </form>
+                <form id="" action="{{ url_for('median_blur', ksize=25) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Median Blur 25x25</button>
+                </form>
+                <form id="" action="{{ url_for('sharp_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Sharpening With Kernel</button>
+                </form>
+            </div>
+            <div class="separator"></div>
+
+
+            <h2>Filter</h2>
+            <div id="identity" class="features-group">
+                <form id="" action="{{ url_for('zero_padding') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Zero Padding</button>
+                </form>
+                <form id="" action="{{ url_for('bilateral_filter') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Bilateral Filter</button>
+                </form>
+                <form id="" action="{{ url_for('low_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Lowpass Filter</button>
+                </form>
+                <form id="" action="{{ url_for('high_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Highpass Filter</button>
+                </form>
+                <form id="" action="{{ url_for('band_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Bandpass Filter</button>
+                </form>
+                <form id="filter-form" action="{{ url_for('custom_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="kernel">Kernel Matrix:</label>
+                        <table class="table-kernel">
+                            <tr>
+                                <td><input type="text" name="cell_1_1"  value=""></td>
+                                <td><input type="text" name="cell_1_2"  value=""></td>
+                                <td><input type="text" name="cell_1_3"  value=""></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="cell_2_1"  value=""></td>
+                                <td><input type="text" name="cell_2_2"  value=""></td>
+                                <td><input type="text" name="cell_2_3"  value=""></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="cell_3_1"  value=""></td>
+                                <td><input type="text" name="cell_3_2"  value=""></td>
+                                <td><input type="text" name="cell_3_3"  value=""></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Custom Kernel</button>
+                </form>
+            </div>
+
+            <div class="separator"></div>
             
             <h2>History</h2>
             <div id="historyMenu" class="features-group">

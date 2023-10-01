@@ -6,6 +6,8 @@ from flask import Flask, render_template, request, make_response
 from datetime import datetime
 from functools import wraps, update_wrapper
 from shutil import copyfile
+from fractions import Fraction
+import cv2 as cv
 
 app = Flask(__name__)
 
@@ -68,6 +70,9 @@ def clear_directory(directory_path):
 @app.route("/upload", methods=["POST"])
 @nocache
 def upload():
+    global img_counter
+    img_counter = 1
+    image_processing.upload()
     # Clear the specified directories before processing the upload
     clear_directory("static/img")
     clear_directory("static/cropped_images_random")
@@ -285,9 +290,9 @@ def histogram_rgb():
     img_filename = f"static/img/img{img_counter}.jpg"
     image_processing.histogram_rgb()
     if image_processing.is_grey_scale(img_filename):
-        return render_template("histogram.html", file_paths=[f"img/img{img_counter}.jpg", "img/grey_histogram.jpg"])
+        return render_template("histogram.html", img_counter=img_counter, file_paths=[f"img/img{img_counter}.jpg", "img/grey_histogram.jpg"])
     else:
-        return render_template("histogram.html", file_paths=[f"img/img{img_counter}.jpg", "img/red_histogram.jpg", "img/green_histogram.jpg", "img/blue_histogram.jpg"])
+        return render_template("histogram.html", img_counter=img_counter, file_paths=[f"img/img{img_counter}.jpg", "img/red_histogram.jpg", "img/green_histogram.jpg", "img/blue_histogram.jpg"])
 
 
 @app.route("/thresholding", methods=["POST"])
@@ -305,6 +310,7 @@ def thresholding():
 @app.route("/cropping_susun", methods=["POST"])
 @nocache
 def cropping_susun():
+    global img_counter
     cropping_columns = int(request.form['cropping_columns'])
     cropping_rows = int(request.form['cropping_rows'])
 
@@ -312,12 +318,14 @@ def cropping_susun():
 
     # Get the list of cropped image paths
     image_paths = [f"static/cropped_images/cropped_{i}.jpg" for i in range(cropping_columns * cropping_rows)]
+    img_filename = f"img/img{img_counter}.jpg"
 
-    return render_template("cropped.html", image_paths=image_paths, cropping_columns=cropping_columns, cropping_rows=cropping_rows)
+    return render_template("cropped.html", img_counter=img_counter, image_paths=image_paths, file_path=img_filename, cropping_columns=cropping_columns, cropping_rows=cropping_rows)
 
 @app.route("/cropping_acak", methods=["POST"])
 @nocache
 def cropping_acak():
+    global img_counter
     cropping_columns_random = int(request.form['cropping_columns_random'])
     cropping_rows_random = int(request.form['cropping_rows_random'])
 
@@ -325,8 +333,9 @@ def cropping_acak():
 
     # Get the list of shuffled cropped image paths
     image_paths = [f"static/cropped_images_random/cropped_random_{i}.jpg" for i in range(cropping_columns_random * cropping_rows_random)]
+    img_filename = f"img/img{img_counter}.jpg"
 
-    return render_template("cropped.html", image_paths=image_paths, cropping_columns=cropping_columns_random, cropping_rows=cropping_rows_random)
+    return render_template("cropped.html", img_counter=img_counter, image_paths=image_paths, file_path=img_filename, cropping_columns=cropping_columns_random, cropping_rows=cropping_rows_random)
 
 @app.route("/image/<int:img_num>")
 def get_image(img_num):
@@ -354,5 +363,159 @@ def restore_history(img_num):
     # Redirect ke halaman yang sesuai (misalnya, halaman yang menampilkan gambar terbaru)
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
+@app.route("/identity", methods=["POST"])
+@nocache
+def identity():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.identity()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+@app.route("/blur_kernel", methods=["POST"])
+@nocache
+def blur_kernel():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.blur_kernel()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+@app.route("/blur_cv_blur", methods=["POST"])
+@nocache
+def blur_cv_blur():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.blur_cv_blur()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+@app.route("/gaussian_blur/<int:ksize>", methods=["POST"])
+@nocache
+def gaussian_blur(ksize):
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.gaussian_blur(ksize)
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+
+@app.route("/median_blur/<int:ksize>", methods=["POST"])
+@nocache
+def median_blur(ksize):
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.median_blur(ksize)
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+
+@app.route("/sharp_kernel", methods=["POST"])
+@nocache
+def sharp_kernel():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.sharp_kernel()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+
+@app.route("/bilateral_filter", methods=["POST"])
+@nocache
+def bilateral_filter():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.bilateral_filter()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+
+@app.route("/zero_padding", methods=["POST"])
+@nocache
+def zero_padding():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.zero_padding()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+
+@app.route("/low_filter_pass", methods=["POST"])
+@nocache
+def low_filter_pass():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.low_filter_pass()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+
+@app.route("/high_filter_pass", methods=["POST"])
+@nocache
+def high_filter_pass():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.high_filter_pass()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+
+@app.route("/band_filter_pass", methods=["POST"])
+@nocache
+def band_filter_pass():
+    global img_counter
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    image_processing.band_filter_pass()
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+@app.route("/custom_kernel", methods=["POST"])
+@nocache
+def custom_kernel():
+    global img_counter
+    img_filename = f"img/img{img_counter}.jpg"
+
+    # Ambil nilai-nilai matriks kernel dari input HTML dan ubah menjadi matriks NumPy
+    kernel = np.array([
+        [parse_fraction(request.form['cell_1_1']), parse_fraction(request.form['cell_1_2']), parse_fraction(request.form['cell_1_3'])],
+        [parse_fraction(request.form['cell_2_1']), parse_fraction(request.form['cell_2_2']), parse_fraction(request.form['cell_2_3'])],
+        [parse_fraction(request.form['cell_3_1']), parse_fraction(request.form['cell_3_2']), parse_fraction(request.form['cell_3_3'])]
+    ], dtype=np.float32)
+
+    image_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(image_path)  # Load the image using OpenCV
+
+    # Apply the custom kernel to the image using filter2D
+    customKernelImage = cv.filter2D(image, -1, kernel)
+
+    img_counter += 1
+    img_filename = f"img/img{img_counter}.jpg"
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, customKernelImage)
+
+    return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
+
+def parse_fraction(fraction_str):
+    try:
+        # Pisahkan pembilang dan penyebut, kemudian konversi ke float
+        parts = fraction_str.split('/')
+        if len(parts) == 2:
+            numerator, denominator = map(float, parts)
+            # Handle jika penyebut adalah nol
+            if denominator == 0:
+                return 0.0
+            else:
+                return numerator / denominator
+        elif len(parts) == 1:
+            # Jika tidak ada '/' dalam string, coba mengonversi ke float
+            return float(fraction_str)
+    except ValueError:
+        # Tangani jika konversi gagal
+        return 0.0
+    
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
+
+
+        

@@ -182,3 +182,6 @@ input.thres {
     cursor: pointer;
 }
 
+.table-kernel input{
+  width: 5rem;
+}

@@ -165,3 +165,5 @@ historyImages.forEach(image => {
         restoreForm.action = `/restore_history/${imgNum}`;
     });
 });
+
+

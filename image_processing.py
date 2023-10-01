@@ -4,15 +4,18 @@ import matplotlib.pyplot as plt
 import math
 from collections import Counter
 from pylab import savefig
-import cv2
+import cv2 as cv
 import os
 import pandas as pd
-import cv2 as cv
 from skimage import io
 import matplotlib.pylab as plt
 
 global img_counter
 img_counter = 1
+
+def upload():
+    global img_counter
+    img_counter = 1
 
 def normal():
     global img_counter
@@ -356,13 +359,13 @@ def cdf(hist):  # cumulative distribution frequency
 def histogram_equalizer():
     global img_counter
     img_path = f"static/img/img{img_counter}.jpg"
-    img = cv2.imread(img_path, 0)
+    img = cv.imread(img_path, 0)
     my_cdf = cdf(df(img))
     # use linear interpolation of cdf to find new pixel values. Scipy alternative exists
     image_equalized = np.interp(img, range(0, 256), my_cdf)
     img_counter += 1 
     img_path = f"static/img/img{img_counter}.jpg"
-    cv2.imwrite(img_path, image_equalized)
+    cv.imwrite(img_path, image_equalized)
 
 
 def threshold(lower_thres, upper_thres):
@@ -452,3 +455,184 @@ def cropping_acak(rows, columns):
 def restore_history(restore_int):
     global img_counter
     img_counter = restore_int
+
+
+def identity():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    # Apply the identity kernel (no change)
+    kernel = np.array([[0, 0, 0],
+                       [0, 1, 0],
+                       [0, 0, 0]])
+    identity_image = cv.filter2D(src=image, ddepth=-1, kernel=kernel)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, identity_image)
+
+def blur_kernel():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    kernel = np.ones((3, 3), np.float32) / 9
+
+    blur = cv.filter2D(src=image, ddepth=-1, kernel=kernel)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, blur)
+
+def blur_cv_blur():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    cv_blur = cv.blur(src=image, ksize=(5,5))
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, cv_blur)
+
+
+def gaussian_blur(kernelsize):
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    cv_gaussianblur = cv.GaussianBlur(src=image,ksize=(kernelsize,kernelsize),sigmaX=0)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, cv_gaussianblur)
+
+
+def median_blur(kernelsize):
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    cv_median = cv.medianBlur(src=image, ksize=kernelsize)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, cv_median)
+
+
+def sharp_kernel():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    kernel = np.array([[0, -1, 0],
+                   [-1, 5, -1],
+                   [0, -1, 0]])
+
+    sharp = cv.filter2D(src=image, ddepth=-1, kernel=kernel)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, sharp)
+
+
+def bilateral_filter():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    bf = cv.bilateralFilter(src=image,d=9,sigmaColor=75,sigmaSpace=75)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, bf)
+
+def zero_padding():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    image = cv.copyMakeBorder(image, 1, 1, 1, 1, cv.BORDER_CONSTANT, value=0)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, image)
+
+def low_filter_pass():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    # create the low pass filter
+    lowFilter = np.ones((3,3),np.float32)/9
+    # apply the low pass filter to the image
+    lowFilterImage = cv.filter2D(image,-1,lowFilter)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, lowFilterImage)
+
+def high_filter_pass():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    # create the high pass filter
+    highFilter = np.array([[-1,-1,-1],[-1,8,-1],[-1,-1,-1]])    
+    # apply the high pass filter to the image
+    highFilterImage = cv.filter2D(image,-1,highFilter)
+    
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, highFilterImage)
+
+def band_filter_pass():
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    # create the band pass filter
+    bandFilter = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1]])
+    # apply the band pass filter to the image
+    bandFilterImage = cv.filter2D(image,-1,bandFilter)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, bandFilterImage)
+
+def custom_kernel(kernel):
+    global img_counter
+    img_path = f"static/img/img{img_counter}.jpg"
+    image = cv.imread(img_path)  # Load the image using OpenCV
+
+    # apply the custom high pass filter to the image
+    customKernelImage = cv.filter2D(image, -1, kernel)
+
+    img_counter += 1
+
+    # Save the resulting image using OpenCV
+    output_img_path = f"static/img/img{img_counter}.jpg"
+    cv.imwrite(output_img_path, customKernelImage)

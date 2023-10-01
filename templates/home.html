@@ -2,7 +2,13 @@
 {% block body %}
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-4 align-self-center">Tempatnya Anda Berkreasi dengan Citra!!</h1>
+        <div class="row">
+            <div class="judul">
+                <img src="{{ url_for('static', filename='logo/digimonhitam.png') }}" alt="image here" style="width: 30rem;">
+                <h1 class="display-4 align-self-center">Digital Image Processing</h1>
+            </div>
+        </div>
+       
         <p class="lead">Website ini dapat mengolah citra digital dengan berbagai macam proses, baik itu proses umum seperti Greyscale dan Zoom; Pergeseran; Penerangan; Analisis Gambar; Pemrosesan Gambar; Filter Gamber; dan Segmentasi.</p>
         <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <div id="dropArea" class="drop-area">
