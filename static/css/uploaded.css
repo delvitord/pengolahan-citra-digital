@@ -57,6 +57,10 @@ h2 {
     padding-left: 0px; 
 }
 
+.container {
+  max-width: 1030px;
+}
+
 
 .features-group {
     border: 1px solid #ccc;
@@ -153,6 +157,7 @@ input.thres {
     color: black;
     padding-left: 10px;
     padding-top: 10px;
+    height: 12rem;
 }
 
 .image-history {
@@ -185,3 +190,4 @@ input.thres {
 .table-kernel input{
   width: 5rem;
 }
+

@@ -1,6 +1,10 @@
 p {
-    margin-top: 1rem;
+    margin-top: 0rem;
     margin-bottom: 1rem;
+}
+
+.container {
+    max-width: 1300px;
 }
 
 .lead {
@@ -13,7 +17,11 @@ p {
     padding: 20px;
     text-align: center;
     cursor: pointer;
+    margin-top: 250px;
+    background-color: white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan dengan warna hitam semi-transparan */
 }
+
 
 
 .highlight {
@@ -37,3 +45,12 @@ p {
     padding-top: 100px;
 }
 
+.judul{
+    display: flex; flex-direction: column; flex: 1;
+    margin-top: 50px;
+  }
+  
+.tampilan-row {
+
+    display: flex; flex-direction: row; gap: 50px; 
+}
