@@ -609,26 +609,15 @@ def custom_kernel(kernel, img_path):
 
 def matching_card(rows, columns, img_path):
     global img_counter
-    identity(img_path)
-    grayscale(img_path)
     grayscale(img_path)
     histogram_equalizer(img_path)
-    histogram_equalizer(img_path)
-    brightness_multiplication(img_path)
     brightness_multiplication(img_path)
     brightness_division(img_path)
-    brightness_division(img_path)
-    edge_detection(img_path)
     edge_detection(img_path)
     gaussian_blur(25, img_path)
-    gaussian_blur(25, img_path)
-    median_blur(25, img_path)
     median_blur(25, img_path)
     threshold(30, 90, img_path)
-    threshold(30, 90, img_path)
     threshold(100, 180, img_path)
-    threshold(100, 180, img_path)
-    threshold(185, 255, img_path)
     threshold(185, 255, img_path)
 
     kernel = np.array([
@@ -637,7 +626,6 @@ def matching_card(rows, columns, img_path):
         [1,  2,  1]
     ], dtype=np.float32)
     custom_kernel(kernel, img_path)
-    custom_kernel(kernel, img_path)
 
     kernel = np.array([
             [-2, -1, 0],
@@ -645,14 +633,12 @@ def matching_card(rows, columns, img_path):
             [0,  1,  2]
     ], dtype=np.float32)
     custom_kernel(kernel, img_path)
-    custom_kernel(kernel, img_path)
 
     kernel = np.array([
             [-1, 0, 1],
             [-2, 0, 2],
             [-1,  0,  1]
     ], dtype=np.float32)
-    custom_kernel(kernel, img_path)
     custom_kernel(kernel, img_path)
 
 

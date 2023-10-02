@@ -75,6 +75,7 @@ fileInput.addEventListener("change", function () {
 function updateUploadStatus(fileName) {
     if (fileName) {
         uploadStatus.innerText = `${fileName} berhasil diunggah.`;
+        window.scrollBy(0, 7000);
     } else {
         uploadStatus.innerText = "Anda belum memasukkan citra.";
     }

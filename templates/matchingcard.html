@@ -74,6 +74,29 @@
         transform: rotateY(180deg);
     }
 
+    .div-score{
+        flex: 2; display: flex; align-items: center;
+    }
+
+    .header-game{
+        display: flex; flex-direction: row; width: 100%;
+    }
+
+    .hint{
+        flex: 2; display: flex; flex-direction: row; align-items: center; gap: 5px;
+    }
+
+    #hint-button{
+        style="height: 2rem; width: 5rem;
+    }
+    .div-surrender{
+        flex: 1; display: flex; align-items: center;
+    }
+
+    #surrender-button{
+        height: 2rem; width: 6rem; margin-left: 120px;
+    } 
+
 </style>
 
 <script>
@@ -364,52 +387,164 @@
 <div class="col-md-9 content">
     <div class="container">
         <div class="row">
+            <div class="header-game">
+                <div class="div-score">
+                    <h2 style="margin-top: 0;">Score: 
+                        <span id="score">0</span>
+                    </h2>
+                </div>
+                <div class="hint">
+                    <button id="hint-button">Hint</button>
+                    <h2 style="margin-top: 5px;">Remaining: 
+                        <span id="hint">5</span>
+                    </h2>
+                </div>
+                <div class="div-surrender">
+                    <button id="surrender-button">Surrender</button>
+                </div>
+            </div>
+            
+            
             <div id="after-cropping">
                 <div class="cropping-container" id="flip-box-container">
-                    {% for image_path in image_paths %}
-                        <div class="flip-box" onclick="flipBox(this)">
+                    {% for image_path, value in image_value_pairs %}
+                        <div class="flip-box not-matched" data-value="{{ value }}" onclick="flipBox(this)">
                             <div class="flip-box-inner">
-                            <div class="flip-box-front">
-                                <img src="{{ url_for('static', filename='logo/icon.png') }}" alt="Paris" style="width:80%">
-                            </div>
-                            <div class="flip-box-back">
+                                <div class="flip-box-front">
+                                    <img src="{{ url_for('static', filename='logo/icon.png') }}" alt="Paris" style="width:80%">
+                                </div>
+                                <div class="flip-box-back">
                                     <img class="cropping-piece" src="{{ image_path }}" alt="Cropped cropping Piece">
-                            </div>
+                                </div>
                             </div>
                         </div>
-                    {% endfor %}  
-                </div>
+                    {% endfor %}
+                </div>                
             </div>
         </div>
     </div>
 </div>
 
-<!-- Footer-->
-<div class="footer">
-    <div class="image-history">
-        <h3>Image History</h3>
-        <ul id="image-list" class="horizontal-list">
-            {% for img_num in range(img_counter, 0, -1) %}
-                <li>
-                    <img class="img-fluid history-image" id="image-result" data-img-num="{{ img_num }}" src="{{ url_for('static', filename='img/img' + img_num|string + '.jpg') }}" alt="Image {{ img_num }}">
-                </li>
-            {% endfor %}
-        </ul>        
-    </div>
-</div>
+
 
 
 <script>
-    function flipBox(element) {
-        // Periksa kelas CSS pada elemen flip-box
-        if (element.classList.contains('flipped')) {
-            // Jika sudah flipped, kembalikan ke tampilan depan
-            element.classList.remove('flipped');
+// Variabel untuk melacak flip-box yang terbuka
+let openBoxes = [];
+
+// Variabel untuk melacak skor
+let score = 0;
+
+let hintCount = 5;
+
+// Fungsi untuk menambahkan elemen ke dalam array openBoxes
+function addToOpenBoxes(element) {
+    openBoxes.push(element);
+}
+
+// Fungsi untuk menghapus elemen dari array openBoxes
+function removeFromOpenBoxes(element) {
+    const index = openBoxes.indexOf(element);
+    if (index !== -1) {
+        openBoxes.splice(index, 1);
+    }
+}
+
+// Fungsi untuk mengecek apakah dua flip-box terbuka memiliki data-value yang sama
+function checkMatch() {
+    if (openBoxes.length === 2) {
+        const firstValue = openBoxes[0].getAttribute('data-value');
+        const secondValue = openBoxes[1].getAttribute('data-value');
+        if (firstValue === secondValue) {
+            // Jika ada pertandingan, tambahkan 1 ke skor
+            score += 1;
+            document.getElementById('score').textContent = score;
+
+            // Tandai flip-boxes yang telah dipasangkan
+            openBoxes[0].classList.add('matched');
+            openBoxes[1].classList.add('matched');
+            openBoxes[0].classList.remove('not-matched');
+            openBoxes[1].classList.remove('not-matched');
+            openBoxes[0].removeAttribute('onclick');
+            openBoxes[1].removeAttribute('onclick');
+            // Kosongkan array openBoxes
+            openBoxes = [];
+            if (score === 14) {
+                // Jika skor mencapai 2, tampilkan pesan pop-up
+                alert('Selamat! Anda Memenangkan Permainan');
+            }
         } else {
-            // Jika belum flipped, ubah ke tampilan belakang
-            element.classList.add('flipped');
+            // Jika tidak ada pertandingan, kembalikan flip-box ke tampilan depan
+            setTimeout(() => {
+                openBoxes[0].classList.remove('flipped');
+                openBoxes[1].classList.remove('flipped');
+                openBoxes = [];
+            }, 1000);
         }
     }
+}
+
+
+// Fungsi untuk mengaktifkan tombol hint yang akan membuka semua flip-box selama 1 detik
+function activateHintButton() {
+    const hintButton = document.getElementById('hint-button');
+    hintButton.addEventListener('click', () => {
+        if (hintCount > 0) { // Cek apakah penggunaan hint masih di bawah 5 kali
+            // Menambahkan kelas flipped ke semua flip-box
+            const flipBoxes = document.querySelectorAll('.not-matched');
+            flipBoxes.forEach((flipBox) => {
+                flipBox.classList.add('flipped');
+            });
+            // Menunggu 1 detik, kemudian menghapus kelas flipped
+            setTimeout(() => {
+                flipBoxes.forEach((flipBox) => {
+                    flipBox.classList.remove('flipped');
+                });
+            }, 1000);
+
+            // Increment hintCount setelah penggunaan hint
+            hintCount--;
+            document.getElementById('hint').textContent = hintCount;
+        } else {
+            alert('Anda sudah menggunakan hint maksimal 5 kali.');
+        }
+    });
+}
+
+// Fungsi flipBox yang telah dimodifikasi
+function flipBox(element) {
+    if (element.classList.contains('flipped')) {
+        // If already flipped, allow it to be flipped back to the front side
+        element.classList.remove('flipped');
+        removeFromOpenBoxes(element);
+    } else if (openBoxes.length < 2) {
+        // If not flipped and there are less than two open boxes
+        element.classList.add('flipped');
+        addToOpenBoxes(element);
+        checkMatch();
+    }
+}
+
+// Memanggil fungsi untuk mengaktifkan tombol hint
+activateHintButton();
+
+// Dapatkan tombol "Surrender" berdasarkan ID
+const surrenderButton = document.getElementById('surrender-button');
+
+// Tambahkan event listener untuk menangani klik pada tombol "Surrender"
+surrenderButton.addEventListener('click', () => {
+    alert('Coba Lagi Lain Waktu');
+    const flipBoxes = document.querySelectorAll('.not-matched');
+    flipBoxes.forEach((flipBox) => {
+        flipBox.classList.add('flipped');
+        flipBox.classList.remove('not-matched');
+        flipBox.classList.remove('not-matched');
+        flipBox.removeAttribute('onclick');
+        flipBox.removeAttribute('onclick');
+    });
+
+});
+ 
 </script>
 
 <script src="{{ url_for('static', filename='scripts/uploaded.js') }}" defer></script>

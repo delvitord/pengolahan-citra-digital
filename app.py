@@ -545,15 +545,24 @@ def matching_card():
     img_filename = f"static/img/img{img_counter}.jpg"
 
     image_processing.matching_card(rows, columns, img_filename)
+    # Buat pasangan gambar dan nilai data-value sesuai dengan aturan permainan
+    img_value_pairs = [
+        (f"static/img/img{i}.jpg", i) for i in range(img_counter, img_counter + 14)
+    ]
 
-    # Get the list of cropped image paths
-    image_paths = [f"static/img/img{i}.jpg" for i in range(img_counter, img_counter+(columns * rows))]
+    image_value_pairs = img_value_pairs + img_value_pairs
+    print(image_value_pairs)
+    # Shuffle pasangan gambar dan nilai
+    random.shuffle(image_value_pairs)
 
-    # Shuffle the image_paths list
-    random.shuffle(image_paths)
+    # Dapatkan daftar path gambar dan nilai data-value yang sudah diacak
+    image_paths = [pair[0] for pair in image_value_pairs]
 
-    return render_template("matchingcard.html", img_counter=img_counter, image_paths=image_paths, columns=columns, rows=rows)
-    
+    img_counter += columns * rows  # Update img_counter untuk gambar berikutnya
+
+    return render_template("matchingcard.html", image_value_pairs=image_value_pairs, image_paths=image_paths, columns=columns, rows=rows)
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
 
