@@ -157,7 +157,7 @@ input.thres {
     color: black;
     padding-left: 10px;
     padding-top: 10px;
-    height: 12rem;
+    height: 10rem;
 }
 
 .image-history {
@@ -180,7 +180,7 @@ input.thres {
 }
 
 #image-list img {
-    max-width: 7rem; /* Memastikan gambar tidak melebihi lebar list */
+    max-width: 5rem; /* Memastikan gambar tidak melebihi lebar list */
 }
 
 #image-list img:hover {

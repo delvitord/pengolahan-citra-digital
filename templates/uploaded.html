@@ -253,6 +253,15 @@
 
             <div class="separator"></div>
             
+            <h2>Play Game!</h2>
+            <div id="playGame" class="features-group">
+                <form id="" action="{{ url_for('matching_card') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Matching Image Card</button>
+                </form>        
+            </div>
+            
+            <div class="separator"></div>
+            
             <h2>History</h2>
             <div id="historyMenu" class="features-group">
                 <form id="restore-form" action="" enctype="multipart/form-data">
