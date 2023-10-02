@@ -8,6 +8,7 @@ from functools import wraps, update_wrapper
 from shutil import copyfile
 from fractions import Fraction
 import cv2 as cv
+import random
 
 app = Flask(__name__)
 
@@ -136,10 +137,10 @@ def normal():
 @nocache
 def grayscale():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.grayscale(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.grayscale()
-
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -147,9 +148,10 @@ def grayscale():
 @nocache
 def zoomin():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.zoomin(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.zoomin()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -157,9 +159,10 @@ def zoomin():
 @nocache
 def zoomout():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.zoomout(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.zoomout()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -167,9 +170,10 @@ def zoomout():
 @nocache
 def move_left():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.move_left(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.move_left()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -177,9 +181,10 @@ def move_left():
 @nocache
 def move_right():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.move_right(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.move_right()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -187,9 +192,10 @@ def move_right():
 @nocache
 def move_up():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.move_up(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.move_up()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -197,9 +203,10 @@ def move_up():
 @nocache
 def move_down():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.move_down(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.move_down()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -207,9 +214,10 @@ def move_down():
 @nocache
 def brightness_addition():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.brightness_addition(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.brightness_addition()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -217,9 +225,10 @@ def brightness_addition():
 @nocache
 def brightness_substraction():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.brightness_substraction(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.brightness_substraction()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -227,9 +236,10 @@ def brightness_substraction():
 @nocache
 def brightness_multiplication():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.brightness_multiplication(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.brightness_multiplication()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -237,9 +247,10 @@ def brightness_multiplication():
 @nocache
 def brightness_division():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.brightness_division(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.brightness_division()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -247,9 +258,10 @@ def brightness_division():
 @nocache
 def histogram_equalizer():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.histogram_equalizer(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.histogram_equalizer()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -257,9 +269,10 @@ def histogram_equalizer():
 @nocache
 def edge_detection():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.edge_detection(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.edge_detection()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -267,9 +280,10 @@ def edge_detection():
 @nocache
 def blur():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.blur(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.blur()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -277,9 +291,10 @@ def blur():
 @nocache
 def sharpening():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.sharpening(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.sharpening()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -288,7 +303,7 @@ def sharpening():
 def histogram_rgb():
     global img_counter
     img_filename = f"static/img/img{img_counter}.jpg"
-    image_processing.histogram_rgb()
+    image_processing.histogram_rgb(img_filename)
     if image_processing.is_grey_scale(img_filename):
         return render_template("histogram.html", img_counter=img_counter, file_paths=[f"img/img{img_counter}.jpg", "img/grey_histogram.jpg"])
     else:
@@ -299,11 +314,12 @@ def histogram_rgb():
 @nocache
 def thresholding():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
-    img_filename = f"img/img{img_counter}.jpg"
     lower_thres = int(request.form['lower_thres'])
     upper_thres = int(request.form['upper_thres'])
-    image_processing.threshold(lower_thres, upper_thres)
+    image_processing.threshold(lower_thres, upper_thres, img_filename)
+    img_filename = f"img/img{img_counter}.jpg"
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -313,8 +329,9 @@ def cropping_susun():
     global img_counter
     cropping_columns = int(request.form['cropping_columns'])
     cropping_rows = int(request.form['cropping_rows'])
+    img_filename = f"static/img/img{img_counter}.jpg"
 
-    image_processing.cropping_susun(cropping_rows, cropping_columns)
+    image_processing.cropping_susun(cropping_rows, cropping_columns, img_filename)
 
     # Get the list of cropped image paths
     image_paths = [f"static/cropped_images/cropped_{i}.jpg" for i in range(cropping_columns * cropping_rows)]
@@ -328,8 +345,10 @@ def cropping_acak():
     global img_counter
     cropping_columns_random = int(request.form['cropping_columns_random'])
     cropping_rows_random = int(request.form['cropping_rows_random'])
+    img_filename = f"static/img/img{img_counter}.jpg"
 
-    image_processing.cropping_acak(cropping_rows_random, cropping_columns_random)
+
+    image_processing.cropping_acak(cropping_rows_random, cropping_columns_random, img_filename)
 
     # Get the list of shuffled cropped image paths
     image_paths = [f"static/cropped_images_random/cropped_random_{i}.jpg" for i in range(cropping_columns_random * cropping_rows_random)]
@@ -367,36 +386,40 @@ def restore_history(img_num):
 @nocache
 def identity():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.identity(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.identity()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 @app.route("/blur_kernel", methods=["POST"])
 @nocache
 def blur_kernel():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.blur_kernel(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.blur_kernel()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 @app.route("/blur_cv_blur", methods=["POST"])
 @nocache
 def blur_cv_blur():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.blur_cv_blur(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.blur_cv_blur()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 @app.route("/gaussian_blur/<int:ksize>", methods=["POST"])
 @nocache
 def gaussian_blur(ksize):
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.gaussian_blur(ksize, img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.gaussian_blur(ksize)
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -404,9 +427,10 @@ def gaussian_blur(ksize):
 @nocache
 def median_blur(ksize):
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.median_blur(ksize, img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.median_blur(ksize)
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -414,9 +438,10 @@ def median_blur(ksize):
 @nocache
 def sharp_kernel():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.sharp_kernel(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.sharp_kernel()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -424,9 +449,10 @@ def sharp_kernel():
 @nocache
 def bilateral_filter():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.bilateral_filter(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.bilateral_filter()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -434,9 +460,10 @@ def bilateral_filter():
 @nocache
 def zero_padding():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.zero_padding(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.zero_padding()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -444,9 +471,10 @@ def zero_padding():
 @nocache
 def low_filter_pass():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.low_filter_pass(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.low_filter_pass()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -454,9 +482,10 @@ def low_filter_pass():
 @nocache
 def high_filter_pass():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.high_filter_pass(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.high_filter_pass()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 
@@ -464,16 +493,17 @@ def high_filter_pass():
 @nocache
 def band_filter_pass():
     global img_counter
+    img_filename = f"static/img/img{img_counter}.jpg"
     img_counter += 1
+    image_processing.band_filter_pass(img_filename)
     img_filename = f"img/img{img_counter}.jpg"
-    image_processing.band_filter_pass()
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
 @app.route("/custom_kernel", methods=["POST"])
 @nocache
 def custom_kernel():
     global img_counter
-    img_filename = f"img/img{img_counter}.jpg"
+    img_filename = f"static/img/img{img_counter}.jpg"
 
     # Ambil nilai-nilai matriks kernel dari input HTML dan ubah menjadi matriks NumPy
     kernel = np.array([
@@ -482,17 +512,9 @@ def custom_kernel():
         [parse_fraction(request.form['cell_3_1']), parse_fraction(request.form['cell_3_2']), parse_fraction(request.form['cell_3_3'])]
     ], dtype=np.float32)
 
-    image_path = f"static/img/img{img_counter}.jpg"
-    image = cv.imread(image_path)  # Load the image using OpenCV
-
-    # Apply the custom kernel to the image using filter2D
-    customKernelImage = cv.filter2D(image, -1, kernel)
-
+    image_processing.custom_kernel(kernel, img_filename)
     img_counter += 1
     img_filename = f"img/img{img_counter}.jpg"
-    # Save the resulting image using OpenCV
-    output_img_path = f"static/img/img{img_counter}.jpg"
-    cv.imwrite(output_img_path, customKernelImage)
 
     return render_template("uploaded.html", img_counter=img_counter, file_path=img_filename)
 
@@ -513,6 +535,24 @@ def parse_fraction(fraction_str):
     except ValueError:
         # Tangani jika konversi gagal
         return 0.0
+    
+@app.route("/matching_card", methods=["POST"])
+@nocache
+def matching_card():
+    global img_counter
+    columns = 7
+    rows = 4
+    img_filename = f"static/img/img{img_counter}.jpg"
+
+    image_processing.matching_card(rows, columns, img_filename)
+
+    # Get the list of cropped image paths
+    image_paths = [f"static/img/img{i}.jpg" for i in range(img_counter, img_counter+(columns * rows))]
+
+    # Shuffle the image_paths list
+    random.shuffle(image_paths)
+
+    return render_template("matchingcard.html", img_counter=img_counter, image_paths=image_paths, columns=columns, rows=rows)
     
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

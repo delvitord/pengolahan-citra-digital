@@ -9,6 +9,7 @@ import os
 import pandas as pd
 from skimage import io
 import matplotlib.pylab as plt
+import random  # Import the random module
 
 global img_counter
 img_counter = 1
@@ -21,9 +22,8 @@ def normal():
     global img_counter
     img_counter = 1
 
-def grayscale():
+def grayscale(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     r = img_arr[:, :, 0]
@@ -49,9 +49,8 @@ def is_grey_scale(img_path):
     return True
 
 
-def zoomin():
+def zoomin(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img = img.convert("RGB")
     img_arr = np.asarray(img)
@@ -96,9 +95,8 @@ def zoomin():
     new_img.save(img_path)
 
 
-def zoomout():
+def zoomout(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img = img.convert("RGB")
     x, y = img.size
@@ -122,9 +120,8 @@ def zoomout():
     new_img.save(img_path)
 
 
-def move_left():
+def move_left(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     r, g, b = img_arr[:, :, 0], img_arr[:, :, 1], img_arr[:, :, 2]
@@ -138,9 +135,8 @@ def move_left():
     new_img.save(img_path)
 
 
-def move_right():
+def move_right(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     r, g, b = img_arr[:, :, 0], img_arr[:, :, 1], img_arr[:, :, 2]
@@ -154,9 +150,8 @@ def move_right():
     new_img.save(img_path)
 
 
-def move_up():
+def move_up(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     r, g, b = img_arr[:, :, 0], img_arr[:, :, 1], img_arr[:, :, 2]
@@ -170,9 +165,8 @@ def move_up():
     new_img.save(img_path)
 
 
-def move_down():
+def move_down(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     r, g, b = img_arr[:, :, 0], img_arr[:, :, 1], img_arr[:, :, 2]
@@ -186,9 +180,8 @@ def move_down():
     new_img.save(img_path)
 
 
-def brightness_addition():
+def brightness_addition(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img).astype('uint16')
     img_arr = img_arr+100
@@ -200,9 +193,8 @@ def brightness_addition():
     new_img.save(img_path)
 
 
-def brightness_substraction():
+def brightness_substraction(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img).astype('int16')
     img_arr = img_arr-100
@@ -214,9 +206,8 @@ def brightness_substraction():
     new_img.save(img_path)
 
 
-def brightness_multiplication():
+def brightness_multiplication(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     img_arr = img_arr*1.25
@@ -228,9 +219,8 @@ def brightness_multiplication():
     new_img.save(img_path)
 
 
-def brightness_division():
+def brightness_division(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     img_arr = img_arr/1.25
@@ -269,9 +259,8 @@ def convolution(img, kernel):
     return new_img
 
 
-def edge_detection():
+def edge_detection(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img, dtype=int)
     kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
@@ -282,9 +271,8 @@ def edge_detection():
     new_img.save(img_path)
 
 
-def blur():
+def blur(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img, dtype=int)
     kernel = np.array(
@@ -296,9 +284,8 @@ def blur():
     new_img.save(img_path)
 
 
-def sharpening():
+def sharpening(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img, dtype=int)
     kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
@@ -309,9 +296,8 @@ def sharpening():
     new_img.save(img_path)
 
 
-def histogram_rgb():
+def histogram_rgb(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
     if is_grey_scale(img_path):
@@ -356,9 +342,8 @@ def cdf(hist):  # cumulative distribution frequency
     return cdf
 
 
-def histogram_equalizer():
+def histogram_equalizer(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = cv.imread(img_path, 0)
     my_cdf = cdf(df(img))
     # use linear interpolation of cdf to find new pixel values. Scipy alternative exists
@@ -368,9 +353,8 @@ def histogram_equalizer():
     cv.imwrite(img_path, image_equalized)
 
 
-def threshold(lower_thres, upper_thres):
+def threshold(lower_thres, upper_thres, img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
 
@@ -411,9 +395,8 @@ def split_image(image, rows, columns):
 
     return cropped_boxes
 
-def cropping_susun(rows, columns):
+def cropping_susun(rows, columns, img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     original_image = Image.open(img_path)
 
     # Split the image into specified number of rows and columns
@@ -430,9 +413,8 @@ def cropping_susun(rows, columns):
         output_path = os.path.join(output_dir, f"cropped_{i}.jpg")
         box.save(output_path)
 
-def cropping_acak(rows, columns):
+def cropping_acak(rows, columns, img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     original_image = Image.open(img_path)
 
     # Split the image into specified number of rows and columns
@@ -457,9 +439,8 @@ def restore_history(restore_int):
     img_counter = restore_int
 
 
-def identity():
+def identity(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     # Apply the identity kernel (no change)
@@ -474,9 +455,8 @@ def identity():
     output_img_path = f"static/img/img{img_counter}.jpg"
     cv.imwrite(output_img_path, identity_image)
 
-def blur_kernel():
+def blur_kernel(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     kernel = np.ones((3, 3), np.float32) / 9
@@ -489,9 +469,8 @@ def blur_kernel():
     output_img_path = f"static/img/img{img_counter}.jpg"
     cv.imwrite(output_img_path, blur)
 
-def blur_cv_blur():
+def blur_cv_blur(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     cv_blur = cv.blur(src=image, ksize=(5,5))
@@ -503,9 +482,8 @@ def blur_cv_blur():
     cv.imwrite(output_img_path, cv_blur)
 
 
-def gaussian_blur(kernelsize):
+def gaussian_blur(kernelsize, img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     cv_gaussianblur = cv.GaussianBlur(src=image,ksize=(kernelsize,kernelsize),sigmaX=0)
@@ -517,9 +495,8 @@ def gaussian_blur(kernelsize):
     cv.imwrite(output_img_path, cv_gaussianblur)
 
 
-def median_blur(kernelsize):
+def median_blur(kernelsize, img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     cv_median = cv.medianBlur(src=image, ksize=kernelsize)
@@ -531,9 +508,8 @@ def median_blur(kernelsize):
     cv.imwrite(output_img_path, cv_median)
 
 
-def sharp_kernel():
+def sharp_kernel(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     kernel = np.array([[0, -1, 0],
@@ -549,12 +525,11 @@ def sharp_kernel():
     cv.imwrite(output_img_path, sharp)
 
 
-def bilateral_filter():
+def bilateral_filter(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
-    bf = cv.bilateralFilter(src=image,d=9,sigmaColor=75,sigmaSpace=75)
+    bf = cv.bilateralFilter(src=image,d=17,sigmaColor=110,sigmaSpace=110)
 
     img_counter += 1
 
@@ -562,9 +537,8 @@ def bilateral_filter():
     output_img_path = f"static/img/img{img_counter}.jpg"
     cv.imwrite(output_img_path, bf)
 
-def zero_padding():
+def zero_padding(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     image = cv.copyMakeBorder(image, 1, 1, 1, 1, cv.BORDER_CONSTANT, value=0)
@@ -575,9 +549,8 @@ def zero_padding():
     output_img_path = f"static/img/img{img_counter}.jpg"
     cv.imwrite(output_img_path, image)
 
-def low_filter_pass():
+def low_filter_pass(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     # create the low pass filter
@@ -591,9 +564,8 @@ def low_filter_pass():
     output_img_path = f"static/img/img{img_counter}.jpg"
     cv.imwrite(output_img_path, lowFilterImage)
 
-def high_filter_pass():
+def high_filter_pass(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     # create the high pass filter
@@ -607,9 +579,8 @@ def high_filter_pass():
     output_img_path = f"static/img/img{img_counter}.jpg"
     cv.imwrite(output_img_path, highFilterImage)
 
-def band_filter_pass():
+def band_filter_pass(img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
     # create the band pass filter
@@ -623,16 +594,66 @@ def band_filter_pass():
     output_img_path = f"static/img/img{img_counter}.jpg"
     cv.imwrite(output_img_path, bandFilterImage)
 
-def custom_kernel(kernel):
+def custom_kernel(kernel, img_path):
     global img_counter
-    img_path = f"static/img/img{img_counter}.jpg"
     image = cv.imread(img_path)  # Load the image using OpenCV
 
-    # apply the custom high pass filter to the image
+    # Apply the custom kernel to the image using filter2D
     customKernelImage = cv.filter2D(image, -1, kernel)
 
     img_counter += 1
-
+    
     # Save the resulting image using OpenCV
     output_img_path = f"static/img/img{img_counter}.jpg"
     cv.imwrite(output_img_path, customKernelImage)
+
+def matching_card(rows, columns, img_path):
+    global img_counter
+    identity(img_path)
+    grayscale(img_path)
+    grayscale(img_path)
+    histogram_equalizer(img_path)
+    histogram_equalizer(img_path)
+    brightness_multiplication(img_path)
+    brightness_multiplication(img_path)
+    brightness_division(img_path)
+    brightness_division(img_path)
+    edge_detection(img_path)
+    edge_detection(img_path)
+    gaussian_blur(25, img_path)
+    gaussian_blur(25, img_path)
+    median_blur(25, img_path)
+    median_blur(25, img_path)
+    threshold(30, 90, img_path)
+    threshold(30, 90, img_path)
+    threshold(100, 180, img_path)
+    threshold(100, 180, img_path)
+    threshold(185, 255, img_path)
+    threshold(185, 255, img_path)
+
+    kernel = np.array([
+        [-1, -2, -1],
+        [0,  0,  0],
+        [1,  2,  1]
+    ], dtype=np.float32)
+    custom_kernel(kernel, img_path)
+    custom_kernel(kernel, img_path)
+
+    kernel = np.array([
+            [-2, -1, 0],
+            [-1,  1,  1],
+            [0,  1,  2]
+    ], dtype=np.float32)
+    custom_kernel(kernel, img_path)
+    custom_kernel(kernel, img_path)
+
+    kernel = np.array([
+            [-1, 0, 1],
+            [-2, 0, 2],
+            [-1,  0,  1]
+    ], dtype=np.float32)
+    custom_kernel(kernel, img_path)
+    custom_kernel(kernel, img_path)
+
+
+

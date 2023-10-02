@@ -4,8 +4,8 @@
 <style>
     .cropping-container {
         display: grid;
-        grid-template-columns: repeat({{ cropping_columns }}, 1fr); /* Kolom */
-        grid-template-rows: repeat({{ cropping_rows }}, 1fr); /* Baris */
+        grid-template-columns: repeat(7, 1fr); /* Kolom */
+        grid-template-rows: repeat(4, 1fr); /* Baris */
         gap: 5px; /* Jarak antar gambar */
         width: 100%;
         margin-top: 10px;
@@ -21,7 +21,73 @@
         margin-right: 50px;
         margin-bottom: 50px;
     }
+
+    /* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+    .flip-box {
+    background-color: transparent;
+    width: 150px;
+    height: 150px;
+    border: 1px solid #f1f1f1;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+    }
+
+    /* This container is needed to position the front and back side */
+    .flip-box-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    }
+
+    /* Position the front and back side */
+    .flip-box-front, .flip-box-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    }
+
+    /* Style the front side (fallback if image is missing) */
+    .flip-box-front {
+    background-color: rgb(190, 237, 255);
+    color: black;
+    padding-left: 5px;
+    }
+
+    /* Style the back side */
+    .flip-box-back {
+    background-color: dodgerblue;
+    color: white;
+    transform: rotateY(180deg);
+    }
+
+    /* CSS yang ada */
+
+    /* Tambahkan kelas untuk tampilan belakang */
+    .flipped .flip-box-inner {
+        transform: rotateY(180deg);
+    }
+
 </style>
+
+<script>
+    // Get all flip boxes by their class name
+    const flipBoxes = document.querySelectorAll('.flip-box');
+
+    // Add a click event listener to each flip box
+    flipBoxes.forEach((box) => {
+        box.addEventListener('click', () => {
+            // Toggle the flip-box-inner's transform property
+            box.querySelector('.flip-box-inner').style.transform = 'rotateY(180deg)';
+        });
+    });
+</script>
 
 <div class="container-fluid">
     <div class="row">
@@ -198,7 +264,89 @@
                 </div>
                  
             </div>
+            
+            <div class="separator"></div>
+            <h2>Konvolusi</h2>
+            <div id="konvolusi" class="features-group">
+                <form id="" action="{{ url_for('identity') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Identity</button>
+                </form>
+                
+                <form id="" action="{{ url_for('blur_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Blur With Kernel</button>
+                </form>
+                 
+                <form id="" action="{{ url_for('blur_cv_blur') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Blur With CV.Blur</button>
+                </form>
+                <form id="" action="{{ url_for('gaussian_blur', ksize=5) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Gaussian Blur 5x5</button>
+                </form>
+                <form id="" action="{{ url_for('gaussian_blur', ksize=25) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Gaussian Blur 25x25</button>
+                </form>
+                <form id="" action="{{ url_for('median_blur', ksize=5) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Median Blur 5x5</button>
+                </form>
+                <form id="" action="{{ url_for('median_blur', ksize=25) }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Median Blur 25x25</button>
+                </form>
+                <form id="" action="{{ url_for('sharp_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Sharpening With Kernel</button>
+                </form>
+            </div>
+            <div class="separator"></div>
 
+
+            <h2>Filter</h2>
+            <div id="identity" class="features-group">
+                <form id="" action="{{ url_for('zero_padding') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Zero Padding</button>
+                </form>
+                <form id="" action="{{ url_for('bilateral_filter') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Bilateral Filter</button>
+                </form>
+                <form id="" action="{{ url_for('low_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Lowpass Filter</button>
+                </form>
+                <form id="" action="{{ url_for('high_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Highpass Filter</button>
+                </form>
+                <form id="" action="{{ url_for('band_filter_pass') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Bandpass Filter</button>
+                </form>
+                <form id="filter-form" action="{{ url_for('custom_kernel') }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="kernel">Kernel Matrix:</label>
+                        <table class="table-kernel">
+                            <tr>
+                                <td><input type="text" name="cell_1_1"  value=""></td>
+                                <td><input type="text" name="cell_1_2"  value=""></td>
+                                <td><input type="text" name="cell_1_3"  value=""></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="cell_2_1"  value=""></td>
+                                <td><input type="text" name="cell_2_2"  value=""></td>
+                                <td><input type="text" name="cell_2_3"  value=""></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="cell_3_1"  value=""></td>
+                                <td><input type="text" name="cell_3_2"  value=""></td>
+                                <td><input type="text" name="cell_3_3"  value=""></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Custom Kernel</button>
+                </form>
+            </div>
+
+            <div class="separator"></div>
+            <h2>Play Game!</h2>
+            <div id="playGame" class="features-group">
+                <form id="" action="{{ url_for('matching_card') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-primary">Matching Image Card</button>
+                </form>        
+            </div>
             <div class="separator"></div>
             
             <h2>History</h2>
@@ -217,16 +365,20 @@
     <div class="container">
         <div class="row">
             <div id="after-cropping">
-                <h3>After Cropping</h3>
-                <div class="cropping-container">
+                <div class="cropping-container" id="flip-box-container">
                     {% for image_path in image_paths %}
-                        <img class="cropping-piece" src="{{ image_path }}" alt="Cropped cropping Piece">
-                    {% endfor %}
+                        <div class="flip-box" onclick="flipBox(this)">
+                            <div class="flip-box-inner">
+                            <div class="flip-box-front">
+                                <img src="{{ url_for('static', filename='logo/icon.png') }}" alt="Paris" style="width:80%">
+                            </div>
+                            <div class="flip-box-back">
+                                    <img class="cropping-piece" src="{{ image_path }}" alt="Cropped cropping Piece">
+                            </div>
+                            </div>
+                        </div>
+                    {% endfor %}  
                 </div>
-            </div>
-            <div id="before-cropping">
-                <h3>Before Cropping</h3>
-                <img class="img-fluid" id="image-result" src="{{ url_for('static', filename=file_path) }}" alt="image here">
             </div>
         </div>
     </div>
@@ -245,6 +397,20 @@
         </ul>        
     </div>
 </div>
+
+
+<script>
+    function flipBox(element) {
+        // Periksa kelas CSS pada elemen flip-box
+        if (element.classList.contains('flipped')) {
+            // Jika sudah flipped, kembalikan ke tampilan depan
+            element.classList.remove('flipped');
+        } else {
+            // Jika belum flipped, ubah ke tampilan belakang
+            element.classList.add('flipped');
+        }
+    }
+</script>
 
 <script src="{{ url_for('static', filename='scripts/uploaded.js') }}" defer></script>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/uploaded.css') }}">
